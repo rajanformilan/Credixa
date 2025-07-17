@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Withdraw - Credixa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background: #f5f8ff;
+      color: #333;
+      padding: 20px;
+      min-height: 100vh;
+    }
+    header {
+      background: #1A237E;
+      padding: 15px 20px;
+      color: #fff;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      font-size: 22px;
+    }
+    header nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 15px;
+      font-weight: 600;
+    }
+    main {
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      max-width: 400px;
+      margin: 0 auto;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+    button {
+      width: 100%;
+      background: #00BFA6;
+      border: none;
+      padding: 14px;
+      color: #fff;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #00897b;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Credixa - Withdraw</h1>
+  <nav>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="invest.html">Invest</a>
+    <a href="deposit.html">Deposit</a>
+    <a href="logout.html">Logout</a>
+  </nav>
+</header>
+
+<main>
+  <form id="withdrawForm">
+    <label for="withdrawAmount">Withdraw Amount ($)</label>
+    <input type="number" id="withdrawAmount" name="withdrawAmount" min="10" placeholder="Minimum $10" required />
+
+    <label for="withdrawMethod">Withdrawal Method</label>
+    <select id="withdrawMethod" name="withdrawMethod" required>
+      <option value="" disabled selected>Select Method</option>
+      <option value="Bank Transfer">Bank Transfer</option>
+      <option value="PayPal">PayPal</option>
+      <option value="Cryptocurrency Wallet">Cryptocurrency Wallet</option>
+    </select>
+
+    <label for="withdrawDetails">Account Details</label>
+    <input type="text" id="withdrawDetails" name="withdrawDetails" placeholder="Enter account or wallet info" required />
+
+    <button type="submit">Request Withdrawal</button>
+  </form>
+</main>
+
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
+<script>
+  (function() {
+    emailjs.init("service_hb78kx7"); // Replace with your EmailJS user ID
+  })();
+
+  const form = document.getElementById('withdrawForm');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const amount = parseFloat(form.withdrawAmount.value);
+    const method = form.withdrawMethod.value;
+    const details = form.withdrawDetails.value.trim();
+
+    if (!amount || amount < 10) {
+      alert('Please enter a valid withdrawal amount of at least $10.');
+      return;
+    }
+    if (!method) {
+      alert('Please select a withdrawal method.');
+      return;
+    }
+    if (!details) {
+      alert('Please enter your account or wallet details.');
+      return;
+    }
+
+    // Send email via EmailJS
+    emailjs.send("service_hb78kx7", "template_z9cledc", {
+      withdraw_amount: amount.toFixed(2),
+      withdraw_method: method,
+      withdraw_details: details
+    }).then(function(response) {
+      alert('Withdrawal request sent successfully!');
+      form.reset();
+    }, function(error) {
+      alert('Failed to send withdrawal request. Please try again.');
+      console.error('EmailJS error:', error);
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Credixa Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #f5f8ff;
+      color: #333;
+      padding: 20px;
+    }
+
+    .navbar {
+      background: #1a237e;
+      padding: 15px 20px;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 8px;
+    }
+
+    .navbar h1 {
+      font-size: 22px;
+    }
+
+    .nav-links a {
+      color: #fff;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .container {
+      margin-top: 30px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+
+    .balance {
+      font-size: 28px;
+      font-weight: bold;
+      color: #1a237e;
+    }
+
+    .actions {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .btn {
+      padding: 12px 20px;
+      background: #00bfa6;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #00897b;
+    }
+
+    .investment-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+    }
+
+    .investment-card {
+      background: #e3f2fd;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .investment-card h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .logout {
+      background: #e53935;
+      margin-left: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <h1>Credixa</h1>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="invest.html">Investments</a>
+      <a href="dashboard.html">Plans</a>
+      <a href="login-signup.html" class="logout">Logout</a>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <div class="card">
+      <h2>Welcome, <span id="username">Investor</span> 👋</h2>
+      <p>Your total balance:</p>
+      <div class="balance" id="balance">$0.00</div>
+      <div class="actions">
+  <button class="btn" onclick="window.location.href='deposit.html'">Deposit</button>
+  <button class="btn" onclick="window.location.href='withdraw.html'">Withdraw</button>
+  <button class="btn" onclick="copyReferralLink()">Refer & Earn</button>
+</div>
+    </div>
+
+    <div class="card">
+      <h2>Investment Overview</h2>
+      <div class="investment-details">
+        <div class="investment-card">
+          <h3>Daily Profit</h3>
+          <p>$5.00</p>
+        </div>
+        <div class="investment-card">
+          <h3>Active Plans</h3>
+          <p>2</p>
+        </div>
+        <div class="investment-card">
+          <h3>Total Invested</h3>
+          <p>$200.00</p>
+        </div>
+        <div class="investment-card">
+          <h3>Currency</h3>
+          <p>USD / Crypto</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Example data load - Replace with real user session data
+    const userData = {
+      username: "Milan",
+      balance: 500.00
+    };
+
+    document.getElementById("username").textContent = userData.username;
+    document.getElementById("balance").textContent = "$" + userData.balance.toFixed(2);
+  </script>
+
+</body>
+</html>

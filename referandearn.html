@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Refer & Earn - Credixa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background: #f0f4f9;
+      padding: 30px 20px;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    header {
+      width: 100%;
+      max-width: 500px;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    header h1 {
+      color: #1a237e;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      padding: 30px 25px;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+    }
+    .code {
+      font-weight: 700;
+      font-size: 20px;
+      color: #00BFA6;
+      margin-bottom: 15px;
+    }
+    .link-box {
+      background: #e3f2fd;
+      padding: 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      word-break: break-all;
+      margin-bottom: 20px;
+      user-select: all;
+    }
+    .btn-copy {
+      background: #1a237e;
+      color: white;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-bottom: 25px;
+    }
+    .btn-copy:hover {
+      background: #0d174f;
+    }
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      gap: 20px;
+    }
+    .stat-box {
+      background: #00BFA6;
+      color: white;
+      padding: 20px 30px;
+      border-radius: 12px;
+      flex: 1;
+    }
+    .stat-box h3 {
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+    .stat-box p {
+      font-weight: 600;
+      font-size: 18px;
+    }
+    footer {
+      margin-top: 40px;
+      font-size: 14px;
+      color: #666;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Refer & Earn</h1>
+  <p>Invite friends and earn $5 for each successful referral!</p>
+</header>
+
+<div class="card">
+  <div>Your Referral Code:</div>
+  <div class="code" id="referralCode">-</div>
+
+  <div>Your Referral Link:</div>
+  <div class="link-box" id="referralLink">-</div>
+
+  <button class="btn-copy" onclick="copyReferralLink()">Copy Referral Link</button>
+
+  <div class="stats">
+    <div class="stat-box">
+      <h3 id="referralsCount">0</h3>
+      <p>Referrals</p>
+    </div>
+    <div class="stat-box">
+      <h3 id="referralEarnings">$0.00</h3>
+      <p>Earnings</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  &copy; 2025 Credixa. All rights reserved.
+</footer>
+
+<script>
+  // Constants
+  const REWARD_PER_REFERRAL = 5;
+
+  // Check if user is logged in
+  const loggedInEmail = localStorage.getItem('loggedInUser');
+  if (!loggedInEmail) {
+    alert("You must be logged in to view this page.");
+    window.location.href = "login-signup.html";
+  }
+
+  const users = JSON.parse(localStorage.getItem('credixaUsers')) || {};
+  const user = users[loggedInEmail];
+
+  if (!user) {
+    alert("User data missing. Please login again.");
+    localStorage.removeItem('loggedInUser');
+    window.location.href = "login-signup.html";
+  }
+
+  // Generate referral code if missing
+  if (!user.referralCode) {
+    user.referralCode = generateReferralCode();
+    users[loggedInEmail] = user;
+    localStorage.setItem('credixaUsers', JSON.stringify(users));
+  }
+
+  // Display referral info
+  const referralCodeEl = document.getElementById('referralCode');
+  const referralLinkEl = document.getElementById('referralLink');
+  const referralsCountEl = document.getElementById('referralsCount');
+  const referralEarningsEl = document.getElementById('referralEarnings');
+
+  referralCodeEl.textContent = user.referralCode;
+
+  const referralUrl = `${window.location.origin}/login-signup.html?ref=${user.referralCode}`;
+  referralLinkEl.textContent = referralUrl;
+
+  const referralsCount = user.referralsCount || 0;
+  referralsCountEl.textContent = referralsCount;
+
+  referralEarningsEl.textContent = `$${(referralsCount * REWARD_PER_REFERRAL).toFixed(2)}`;
+
+  // Copy to clipboard function
+  function copyReferralLink() {
+    navigator.clipboard.writeText(referralUrl).then(() => {
+      alert("Referral link copied to clipboard!");
+    }).catch(() => {
+      alert("Failed to copy. Please copy manually:\n" + referralUrl);
+    });
+  }
+
+  // Helper to generate referral code
+  function generateReferralCode() {
+    return Math.random().toString(36).slice(2, 8).toUpperCase();
+  }
+</script>
+
+</body>
+</html>

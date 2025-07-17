@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pay Now – Credixa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f1f5f9;
+      margin: 0;
+      padding: 20px;
+      color: #111;
+    }
+    .container {
+      max-width: 480px;
+      margin: auto;
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #1e293b;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .wallet {
+      margin-bottom: 20px;
+    }
+    .wallet label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .wallet input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 5px;
+    }
+    .copy-btn {
+      background: #0284c7;
+      color: white;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: -10px;
+      margin-bottom: 15px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #10b981;
+      color: white;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    button:hover {
+      background: #059669;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Pay Now – Credixa</h2>
+
+    <div class="wallet">
+      <label>PayPal Email</label>
+      <input type="text" id="paypal" value="rajanformilan@gmail.com" readonly>
+      <button class="copy-btn" onclick="copyText('paypal')">Copy PayPal</button>
+    </div>
+
+    <div class="wallet">
+      <label>Binance (USDT TRC20)</label>
+      <input type="text" id="binance" value="TMMts6W9zFJbR5y1YdeyLXSUo9XJ2j5nFS" readonly>
+      <button class="copy-btn" onclick="copyText('binance')">Copy Binance</button>
+    </div>
+
+    <form id="depositForm">
+      <div class="form-group">
+        <input type="text" placeholder="Your Name" required />
+      </div>
+      <div class="form-group">
+        <input type="email" placeholder="Your Email" required />
+      </div>
+      <div class="form-group">
+        <select required>
+          <option value="">Select Payment Method</option>
+          <option>PayPal</option>
+          <option>Binance (USDT TRC20)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <input type="number" placeholder="Amount Sent (USD)" required />
+      </div>
+      <div class="form-group">
+        <label>Upload Screenshot</label>
+        <input type="file" accept="image/*" required />
+      </div>
+      <button type="submit">Submit Deposit Request</button>
+    </form>
+  </div>
+
+  <script>
+    function copyText(id) {
+      const input = document.getElementById(id);
+      input.select();
+      input.setSelectionRange(0, 99999);
+      document.execCommand("copy");
+      alert("Copied: " + input.value);
+    }
+
+    document.getElementById("depositForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      alert("Deposit request submitted. We’ll verify and update your balance shortly.");
+      this.reset();
+    });
+  </script>
+</body>
+</html>
