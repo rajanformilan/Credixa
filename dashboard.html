@@ -122,10 +122,10 @@
       <p>Your total balance:</p>
       <div class="balance" id="balance">$0.00</div>
       <div class="actions">
-  <button class="btn" onclick="window.location.href='deposit.html'">Deposit</button>
-  <button class="btn" onclick="window.location.href='withdraw.html'">Withdraw</button>
-  <button class="btn" onclick="window.location.href='referandearn.html'">Refer and Earn</button>
-</div>
+        <button class="btn" onclick="window.location.href='deposit.html'">Deposit</button>
+        <button class="btn" onclick="window.location.href='withdraw.html'">Withdraw</button>
+        <button class="btn" onclick="window.location.href='referandearn.html'">Refer and Earn</button>
+      </div>
     </div>
 
     <div class="card">
@@ -133,15 +133,15 @@
       <div class="investment-details">
         <div class="investment-card">
           <h3>Daily Profit</h3>
-          <p>$5.00</p>
+          <p id="dailyProfit">$0.00</p>
         </div>
         <div class="investment-card">
           <h3>Active Plans</h3>
-          <p>2</p>
+          <p id="activePlans">0</p>
         </div>
         <div class="investment-card">
           <h3>Total Invested</h3>
-          <p>$200.00</p>
+          <p id="totalInvested">$0.00</p>
         </div>
         <div class="investment-card">
           <h3>Currency</h3>
@@ -153,14 +153,37 @@
   </div>
 
   <script>
-    // Example data load - Replace with real user session data
-    const userData = {
-      username: "Milan",
-      balance: 500.00
-    };
+    // Load balance from localStorage
+    function loadDashboard() {
+      const username = localStorage.getItem('username') || 'Investor';
+      const balance = parseFloat(localStorage.getItem('userBalance')) || 0;
+      const investments = JSON.parse(localStorage.getItem('investments') || '[]');
 
-    document.getElementById("username").textContent = userData.username;
-    document.getElementById("balance").textContent = "$" + userData.balance.toFixed(2);
+      document.getElementById("username").textContent = username;
+      document.getElementById("balance").textContent = "$" + balance.toFixed(2);
+
+      let totalInvested = 0;
+      let dailyProfit = 0;
+
+      investments.forEach(inv => {
+        totalInvested += inv.amount;
+        dailyProfit += inv.amount * inv.dailyRate;
+      });
+
+      document.getElementById("activePlans").textContent = investments.length;
+      document.getElementById("totalInvested").textContent = "$" + totalInvested.toFixed(2);
+      document.getElementById("dailyProfit").textContent = "$" + dailyProfit.toFixed(2);
+    }
+
+    function copyReferralLink() {
+      const userCode = localStorage.getItem('username') || 'INVESTOR123';
+      const link = `https://credixa.com/signup.html?ref=${encodeURIComponent(userCode)}`;
+      navigator.clipboard.writeText(link).then(() => {
+        alert("Referral link copied!\n" + link);
+      });
+    }
+
+    loadDashboard();
   </script>
 
 </body>
